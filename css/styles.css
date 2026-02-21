@@ -4,55 +4,57 @@
 
    TABLE OF CONTENTS
    -----------------
-   1.  CSS Variables (your colour palette — edit here)
+   1.  CSS Variables  (colour palette — edit here)
    2.  Reset & Base
    3.  Background textures & glow blobs
    4.  Custom cursor
-   5.  Navigation
-   6.  Hero section
-   7.  Section shared styles
-   8.  About section
-   9.  Experience section
-   10. Projects section
-   11. Contact section
-   12. Footer
-   13. Scroll reveal animation
-   14. Responsive / mobile
+   5.  Navigation (desktop)
+   6.  Navigation (mobile — hamburger menu)
+   7.  Hero section
+   8.  Python hover effect  (desktop only)
+   9.  Section shared styles
+   10. About section
+   11. Experience section
+   12. Projects section
+   13. Contact section
+   14. Footer
+   15. Scroll reveal animation
+   16. Responsive / mobile  (max-width: 768px)
 ================================================================ */
 
 
 /* ================================================================
-   1. CSS VARIABLES — YOUR COLOUR PALETTE
-   Change values here and the whole site updates automatically.
-   ================================================================ */
+   1. CSS VARIABLES — COLOUR PALETTE
+   Edit values here and the whole site updates automatically.
+================================================================ */
 :root {
-  /* --- Brand Accent (Lilac Identity) --- */
-  --accent:        #C4B5FD;   /* Primary lilac — used for highlights, links, active states */
-  --accent-strong: #A78BFA;   /* Deeper purple — hover states, emphasis */
-  --accent-subtle: #DDD6FE;   /* Pale lilac — glow rings, subtle tints */
+  /* Brand Accent — Lilac Identity */
+  --accent:        #C4B5FD;  /* Primary lilac: highlights, links, active states */
+  --accent-strong: #A78BFA;  /* Deeper purple: hover states, emphasis           */
+  --accent-subtle: #DDD6FE;  /* Pale lilac: glow rings, tints                   */
 
-  /* --- Dark Mode Base --- */
-  --bg:      #0B1020;         /* Page background (deep navy-black) */
-  --bg2:     #11162A;         /* Card / panel background */
-  --surface: #181E35;         /* Hovered card background (slightly lighter) */
-  --text:    #EDEDFC;         /* Primary readable text */
-  --muted:   #A1A1B3;         /* Secondary / grey text */
-  --border:  #1E2340;         /* Borders and dividers */
+  /* Dark Mode Base */
+  --bg:      #0B1020;        /* Page background                                 */
+  --bg2:     #11162A;        /* Card / panel background                         */
+  --surface: #181E35;        /* Hovered card background                         */
+  --text:    #EDEDFC;        /* Primary readable text                           */
+  --muted:   #A1A1B3;        /* Secondary / greyed-out text                     */
+  --border:  #1E2340;        /* Borders and dividers                            */
 
-  /* --- Derived / Utility --- */
-  --accent-glow: rgba(196, 181, 253, 0.12); /* Transparent tint for hover backgrounds */
+  /* Utility */
+  --accent-glow: rgba(196, 181, 253, 0.12); /* Transparent tint for hover bg   */
 
-  /* --- Typography --- */
-  --font-display: 'Garamond', serif;   /* Big editorial headlines */
-  --font-mono:    'DM Mono', monospace; /* Everything else */
+  /* Typography */
+  --font-display: 'Fraunces', serif;    /* Big editorial headlines              */
+  --font-mono:    'DM Mono', monospace; /* Everything else                      */
 }
 
 
 /* ================================================================
-   2. RESET & BASE STYLES
+   2. RESET & BASE
    Removes default browser spacing. Sets global font and colours.
-   cursor: none hides the default cursor so our custom one shows.
-   ================================================================ */
+   cursor: none hides the default so our custom one shows.
+================================================================ */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -64,26 +66,26 @@ html {
 }
 
 body {
-  background:   var(--bg);
-  color:        var(--text);
-  font-family:  var(--font-mono);
-  font-size:    14px;
-  line-height:  1.7;
-  overflow-x:   hidden; /* Prevent horizontal scroll from animations */
-  cursor:       none;   /* Hide default cursor — custom cursor takes over */
+  background:  var(--bg);
+  color:       var(--text);
+  font-family: var(--font-mono);
+  font-size:   14px;
+  line-height: 1.7;
+  overflow-x:  hidden; /* Prevent horizontal scroll from animations */
+  cursor:      none;   /* Hide default cursor — custom cursor takes over */
 }
 
 
 /* ================================================================
    3. BACKGROUND TEXTURES & GLOW BLOBS
 
-   body::before — film grain / noise texture (SVG filter inline)
+   body::before — subtle film grain noise (SVG data URI)
    body::after  — faint grid lines
    Both use pointer-events: none so they never block clicks.
 
-   .glow-blob — blurred circles that create the ambient purple glow.
-   position: fixed so they stay put as you scroll.
-   ================================================================ */
+   .glow-blob — blurred circles creating the ambient purple glow.
+   position: fixed so they stay put while you scroll.
+================================================================ */
 body::before {
   content: '';
   position: fixed;
@@ -106,7 +108,6 @@ body::after {
   z-index: 0;
 }
 
-/* Shared blob styles */
 .glow-blob {
   position: fixed;
   border-radius: 50%;
@@ -116,46 +117,26 @@ body::after {
   opacity: 0.16;
 }
 
-/* Blob positions — move top/right/left/bottom to reposition */
-.glow-blob-1 {
-  width: 520px;
-  height: 520px;
-  background: var(--accent);
-  top: -160px;
-  right: -80px;
-}
-.glow-blob-2 {
-  width: 360px;
-  height: 360px;
-  background: var(--accent-strong);
-  bottom: 20%;
-  left: -100px;
-}
-.glow-blob-3 {
-  width: 260px;
-  height: 260px;
-  background: var(--accent-subtle);
-  top: 50%;
-  right: 10%;
-}
+/* Reposition blobs by editing top / right / bottom / left */
+.glow-blob-1 { width: 520px; height: 520px; background: var(--accent);        top: -160px; right: -80px;  }
+.glow-blob-2 { width: 360px; height: 360px; background: var(--accent-strong);  bottom: 20%; left: -100px; }
+.glow-blob-3 { width: 260px; height: 260px; background: var(--accent-subtle);  top: 50%;    right: 10%;   }
 
 
 /* ================================================================
    4. CUSTOM CURSOR
-   Two circles layered on top of each other.
-   .cursor      = small filled dot (moves instantly with mouse)
-   .cursor-ring = larger hollow ring (lags behind for a nice feel)
-   Both are moved by JavaScript in main.js.
-   mix-blend-mode: difference inverts colours where the cursor overlaps.
-   ================================================================ */
+   .cursor      — small filled dot, snaps instantly to mouse
+   .cursor-ring — larger hollow ring, lags behind (JS lerp)
+   mix-blend-mode: difference inverts colours where cursor overlaps.
+   Hidden on mobile (touch screens don't hover).
+================================================================ */
 .cursor {
   width: 10px;
   height: 10px;
   background: var(--accent);
   border-radius: 50%;
   position: fixed;
-  top: 0;
-  left: 0;
+  top: 0; left: 0;
   pointer-events: none;
   z-index: 9999;
   mix-blend-mode: difference;
@@ -167,24 +148,21 @@ body::after {
   border: 1px solid rgba(196, 181, 253, 0.5);
   border-radius: 50%;
   position: fixed;
-  top: 0;
-  left: 0;
+  top: 0; left: 0;
   pointer-events: none;
   z-index: 9998;
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1); /* Smooth lag effect */
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 
 /* ================================================================
-   5. NAVIGATION
-   Fixed at top of screen. Transparent by default.
-   Becomes frosted glass when user scrolls (JS adds .scrolled class).
-   ================================================================ */
+   5. NAVIGATION — DESKTOP
+   Fixed at top. Transparent by default.
+   JS adds .scrolled when window.scrollY > 20 → frosted glass.
+================================================================ */
 nav {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  top: 0; left: 0; right: 0;
   z-index: 500;
   display: flex;
   align-items: center;
@@ -194,11 +172,10 @@ nav {
   transition: border-color 0.3s, background 0.3s;
 }
 
-/* Applied by JS when window.scrollY > 20 */
 nav.scrolled {
   border-color: var(--border);
   background: rgba(11, 16, 32, 0.85);
-  backdrop-filter: blur(20px); /* Frosted glass effect */
+  backdrop-filter: blur(20px);
 }
 
 .nav-logo {
@@ -228,22 +205,96 @@ nav.scrolled {
 .nav-links a::after {
   content: '';
   position: absolute;
-  bottom: -2px;
-  left: 0;
+  bottom: -2px; left: 0;
   width: 0;
   height: 1px;
   background: var(--accent);
   transition: width 0.25s ease;
 }
+
 .nav-links a:hover { color: var(--text); }
 .nav-links a:hover::after { width: 100%; }
 
 
 /* ================================================================
-   6. HERO SECTION
+   6. NAVIGATION — MOBILE HAMBURGER MENU
+   Hamburger button: three horizontal bars that animate into an X.
+   .nav-open (added by JS) slides the mobile menu down.
+================================================================ */
+
+/* Hidden on desktop, shown on mobile via media query */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  z-index: 600;
+}
+
+/* Each bar of the hamburger */
+.hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--accent);
+  border-radius: 2px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  transform-origin: center;
+}
+
+/* Animate bars into an X when .open is added by JS */
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg);  }
+.hamburger.open span:nth-child(2) { opacity: 0;                                 }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* Mobile dropdown menu panel */
+.mobile-menu {
+  display: none; /* shown in media query */
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  background: rgba(11, 16, 32, 0.97);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 80px 24px 32px;
+  z-index: 400;
+  flex-direction: column;
+  gap: 8px;
+
+  /* Slide down animation */
+  transform: translateY(-100%);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mobile-menu.open {
+  transform: translateY(0);
+}
+
+.mobile-menu a {
+  display: block;
+  font-size: 24px;
+  font-family: var(--font-mono);
+  color: var(--muted);
+  text-decoration: none;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  transition: color 0.2s, padding-left 0.2s;
+}
+
+.mobile-menu a:hover {
+  color: var(--accent);
+  padding-left: 8px;
+}
+
+
+/* ================================================================
+   7. HERO SECTION
    Full viewport height. Content vertically centred.
-   Most elements fade up in on load via CSS animations.
-   ================================================================ */
+   Elements fade up on load via CSS keyframe animations.
+================================================================ */
 .hero {
   position: relative;
   z-index: 1;
@@ -255,7 +306,7 @@ nav.scrolled {
   max-width: 1400px;
 }
 
-/* "Open to opportunities" badge with pulsing dot */
+/* Pulsing availability badge */
 .hero-badge {
   display: inline-flex;
   align-items: center;
@@ -271,22 +322,21 @@ nav.scrolled {
 
 .hero-badge::before {
   content: '';
-  width: 6px;
-  height: 6px;
+  width: 6px; height: 6px;
   border-radius: 50%;
   background: var(--accent);
   animation: pulse 2s infinite;
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
+  0%, 100% { opacity: 1; transform: scale(1);   }
   50%       { opacity: 0.4; transform: scale(0.7); }
 }
 
-/* Main headline — Fraunces at large size */
+/* Main headline */
 .hero h1 {
   font-family: var(--font-display);
-  font-size: clamp(36px, 5.5vw, 72px); /* Scales with viewport width */
+  font-size: clamp(36px, 5.5vw, 72px);
   font-weight: 300;
   line-height: 0.75;
   letter-spacing: -0.02em;
@@ -295,14 +345,19 @@ nav.scrolled {
   animation: fadeUp 0.8s 0.35s forwards;
 }
 
-/* <em> inside h1 = italic lilac text */
+/* <em> inside h1 — italic, primary text colour, slightly smaller */
 .hero h1 em {
   font-style: italic;
   color: var(--text);
-  font-size: 0.5em; 
+  font-size: 0.5em;
 }
 
-/* Subtitle paragraph below headline */
+/* The word "purple" in accent colour */
+.purple-word {
+  color: var(--accent);
+}
+
+/* Sub-paragraph */
 .hero-sub {
   font-size: 15px;
   color: var(--muted);
@@ -315,18 +370,16 @@ nav.scrolled {
 /* <span> inside hero-sub = white highlighted words */
 .hero-sub span { color: var(--text); }
 
-/* The cycling typewriter text (driven by JS) */
+/* Typewriter cycling text */
 .typewriter {
   color: var(--accent);
   border-right: 2px solid var(--accent);
   animation: blink 1s step-end infinite;
 }
 
-@keyframes blink {
-  50% { border-color: transparent; }
-}
+@keyframes blink { 50% { border-color: transparent; } }
 
-/* CTA buttons row */
+/* CTA button row */
 .hero-cta {
   display: flex;
   gap: 16px;
@@ -348,7 +401,6 @@ nav.scrolled {
   cursor: none;
 }
 
-/* Filled primary button */
 .btn-primary {
   background: var(--accent);
   color: var(--bg);
@@ -360,7 +412,6 @@ nav.scrolled {
   box-shadow: 0 8px 30px rgba(196, 181, 253, 0.3);
 }
 
-/* Outlined ghost button */
 .btn-ghost {
   border: 1px solid var(--border);
   color: var(--muted);
@@ -371,11 +422,10 @@ nav.scrolled {
   transform: translateY(-2px);
 }
 
-/* "Scroll to explore" hint at bottom of hero */
+/* Scroll hint at bottom of hero (hidden on mobile) */
 .hero-scroll-hint {
   position: absolute;
-  bottom: 40px;
-  left: 48px;
+  bottom: 40px; left: 48px;
   font-size: 11px;
   color: var(--muted);
   letter-spacing: 0.15em;
@@ -395,29 +445,37 @@ nav.scrolled {
   overflow: hidden;
 }
 
-/* Animated shimmer that slides across the scroll line */
+/* Shimmer that slides across the scroll line */
 .scroll-line::after {
   content: '';
   position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
   background: var(--accent);
   animation: scrollSlide 2s 1.5s infinite;
 }
 
 @keyframes scrollSlide {
   0%   { left: -100%; }
-  100% { left: 100%; }
+  100% { left: 100%;  }
 }
 
-/* Shared entrance animation used by hero elements */
+/* Shared entrance animation */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
+  to   { opacity: 1; transform: translateY(0);    }
 }
 
+
+/* ================================================================
+   8. PYTHON HOVER EFFECT — DESKTOP ONLY
+   The word "Python" in the hero headline shows a dashed underline
+   hinting it's interactive. On hover, the Python SVG logo fades in.
+
+   Disabled on mobile (see media query at bottom) because:
+   - Touch screens don't hover
+   - The absolute positioning creates an awkward gap on small screens
+================================================================ */
 /* Python hover logo effect */
 .python-hover {
   position: relative;
@@ -454,17 +512,17 @@ nav.scrolled {
 }
 
 /* ================================================================
-   7. SECTION SHARED STYLES
-   All content sections (About, Experience, Projects, Contact) use these.
-   Change padding to adjust spacing between sections.
-   ================================================================ */
+   9. SECTION SHARED STYLES
+   All content sections share these base styles.
+   Adjust padding to change vertical spacing between sections.
+================================================================ */
 section {
   position: relative;
   z-index: 1;
   padding: 100px 48px;
 }
 
-/* "About me", "Experience" etc. label at top of each section */
+/* Section label: "About me", "Experience" etc. */
 .section-label {
   font-size: 11px;
   letter-spacing: 0.2em;
@@ -476,7 +534,7 @@ section {
   gap: 16px;
 }
 
-/* Short horizontal line after the label text */
+/* Short decorative line after the label text */
 .section-label::after {
   content: '';
   flex: 1;
@@ -487,10 +545,10 @@ section {
 
 
 /* ================================================================
-   8. ABOUT SECTION
+   10. ABOUT SECTION
    Two-column grid: bio text (left) | tech stack (right).
-   Collapses to one column on mobile (see responsive section).
-   ================================================================ */
+   Collapses to one column on mobile.
+================================================================ */
 .about-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -499,23 +557,15 @@ section {
   max-width: 1400px;
 }
 
-.about-text {
-  font-size: 15px;
-  line-height: 1.9;
-  color: var(--muted);
-}
+.about-text { font-size: 15px; line-height: 1.9; color: var(--muted); }
 .about-text p + p  { margin-top: 16px; }
 .about-text a      { color: var(--accent); text-decoration: none; }
 .about-text strong { color: var(--text); font-weight: 500; }
 
-/* Container for all skill rows */
-.stack-list {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
+/* Stack list container */
+.stack-list { display: flex; flex-direction: column; gap: 4px; }
 
-/* One skill row */
+/* Individual skill row */
 .stack-item {
   display: flex;
   align-items: center;
@@ -534,12 +584,12 @@ section {
 .stack-name  { font-size: 13px; }
 .stack-level { font-size: 11px; color: var(--muted); letter-spacing: 0.08em; }
 
-/* Dot rating row under skill name */
+/* Proficiency dots */
 .stack-dots { display: flex; gap: 4px; margin-top: 5px; }
 .dot        { width: 5px; height: 5px; border-radius: 50%; background: var(--border); }
 .dot.filled { background: var(--accent); }
 
-/* ---- Stack item icon tooltip on hover ---- */
+/* Icon row — hidden by default, fades in on hover */
 .stack-icons {
   display: flex;
   gap: 8px;
@@ -551,27 +601,20 @@ section {
 }
 
 .stack-icons img {
-  width: 22px;
-  height: 22px;
+  width: 22px; height: 22px;
   object-fit: contain;
-  filter: brightness(0) invert(0.7); /* muted tone to match the dark theme */
+  filter: brightness(0) invert(0.7); /* muted to match dark theme */
 }
 
-.stack-item:hover .stack-icons {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.stack-item:hover .stack-icons img {
-  filter: none; /* full colour on hover */
-}
+.stack-item:hover .stack-icons             { opacity: 1; transform: translateY(0); }
+.stack-item:hover .stack-icons img         { filter: none; } /* full colour on hover */
 
 
 /* ================================================================
-   9. EXPERIENCE SECTION
-   Timeline list. Each job = one .exp-item in a two-column grid.
-   Left: date + company. Right: role title + bullet points.
-   ================================================================ */
+   11. EXPERIENCE SECTION
+   Two-column grid per job: date/company (left) | role + bullets (right).
+   Collapses to single column on mobile.
+================================================================ */
 .exp-list {
   max-width: 1400px;
   display: flex;
@@ -592,13 +635,7 @@ section {
 .exp-company { font-size: 12px; color: var(--accent); }
 .exp-role    { font-size: 15px; font-weight: 500; margin-bottom: 12px; }
 
-.exp-bullets {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
+.exp-bullets { list-style: none; display: flex; flex-direction: column; gap: 8px; }
 .exp-bullets li {
   font-size: 13px;
   color: var(--muted);
@@ -607,7 +644,7 @@ section {
   position: relative;
 }
 
-/* Em dash bullet marker */
+/* Em dash used as custom bullet marker */
 .exp-bullets li::before {
   content: '—';
   position: absolute;
@@ -617,10 +654,10 @@ section {
 
 
 /* ================================================================
-   10. PROJECTS SECTION
-   Auto-filling CSS grid of cards.
-   Each card has a gradient top-border that sweeps in on hover.
-   ================================================================ */
+   12. PROJECTS SECTION
+   CSS grid of clickable cards. Each card = one <a> tag.
+   Gradient top-border sweeps in on hover.
+================================================================ */
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -637,31 +674,28 @@ section {
   cursor: none;
   position: relative;
   overflow: hidden;
-  text-decoration: none;  /* removes underline */
-  color: inherit;         /* keeps text colours as they are */
+  text-decoration: none; /* no underline on the <a> */
+  color: inherit;        /* keep text colours as defined */
 }
 
 /* Gradient line that sweeps in from left on hover */
 .project-card::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 2px;
+  top: 0; left: 0;
+  width: 100%; height: 2px;
   background: linear-gradient(90deg, var(--accent), var(--accent-subtle));
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.3s ease;
 }
+
 .project-card:hover {
   border-color: rgba(196, 181, 253, 0.3);
   transform: translateY(-4px);
   background: var(--surface);
 }
-.project-card:hover::before {
-  transform: scaleX(1);
-}
+.project-card:hover::before { transform: scaleX(1); }
 
 .project-top {
   display: flex;
@@ -669,16 +703,13 @@ section {
   align-items: flex-start;
   margin-bottom: 16px;
 }
-.project-icon { font-size: 22px; }
 
-.project-links         { display: flex; gap: 12px; }
-.project-links a       { font-size: 11px; color: var(--muted); text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; }
-.project-links a:hover { color: var(--accent); }
+.project-icon       { font-size: 22px; }
+.project-link-label { font-size: 11px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+.project-title      { font-size: 15px; font-weight: 500; margin-bottom: 10px; }
+.project-desc       { font-size: 13px; color: var(--muted); line-height: 1.7; margin-bottom: 20px; }
 
-.project-title { font-size: 15px; font-weight: 500; margin-bottom: 10px; }
-.project-desc  { font-size: 13px; color: var(--muted); line-height: 1.7; margin-bottom: 20px; }
-
-/* Tech tag chips at bottom of each card */
+/* Tech tag chips */
 .project-tags { display: flex; flex-wrap: wrap; gap: 6px; }
 .tag {
   font-size: 10px;
@@ -694,11 +725,9 @@ section {
 
 
 /* ================================================================
-   11. CONTACT SECTION
-   Big Fraunces headline + description + link buttons row.
-   ================================================================ */
-/* .contact-inner { max-width: 600px; } */
-
+   13. CONTACT SECTION
+   Large Fraunces heading + description + link buttons.
+================================================================ */
 .contact-heading {
   font-family: var(--font-display);
   font-size: clamp(36px, 5vw, 64px);
@@ -706,10 +735,7 @@ section {
   line-height: 1.1;
   margin-bottom: 24px;
 }
-.contact-heading em {
-  font-style: italic;
-  color: var(--accent);
-}
+.contact-heading em { font-style: italic; color: var(--accent); }
 
 .contact-desc {
   color: var(--muted);
@@ -743,9 +769,8 @@ section {
 
 
 /* ================================================================
-   12. FOOTER
-   Simple two-end row at the very bottom.
-   ================================================================ */
+   14. FOOTER
+================================================================ */
 footer {
   position: relative;
   z-index: 1;
@@ -759,10 +784,11 @@ footer span { font-size: 12px; color: var(--muted); }
 
 
 /* ================================================================
-   13. SCROLL REVEAL ANIMATION
-   Elements start invisible + shifted down. JS adds .visible when
-   they enter the viewport, which triggers this CSS transition.
-   ================================================================ */
+   15. SCROLL REVEAL
+   .reveal starts invisible + shifted down.
+   JS adds .visible when element enters viewport.
+   CSS transitions handle the animation.
+================================================================ */
 .reveal {
   opacity: 0;
   transform: translateY(24px);
@@ -775,16 +801,50 @@ footer span { font-size: 12px; color: var(--muted); }
 
 
 /* ================================================================
-   14. RESPONSIVE — MOBILE (max-width: 768px)
-   Adjusts layout for tablets and phones.
-   768px is a common breakpoint for switching to single-column.
-   ================================================================ */
+   16. RESPONSIVE — MOBILE  (max-width: 768px)
+   Everything below 768px width gets these overrides.
+================================================================ */
 @media (max-width: 768px) {
-  nav          { padding: 16px 24px; }
-  .hero        { padding-left: 24px; padding-right: 24px; }
-  section      { padding-left: 24px; padding-right: 24px; }
-  .hero h1     { font-size: clamp(42px, 12vw, 80px); }
-  .about-grid  { grid-template-columns: 1fr; gap: 48px; }
-  .exp-item    { grid-template-columns: 1fr; gap: 8px; }
-  footer       { flex-direction: column; gap: 12px; text-align: center; }
+
+  /* Nav */
+  nav { padding: 16px 20px; }
+  .nav-links { display: none; }   /* Hidden — hamburger takes over */
+  .hamburger { display: flex; }   /* Show hamburger button          */
+  .mobile-menu { display: flex; } /* Allow mobile menu to be shown  */
+
+  /* Hero */
+  .hero { padding-left: 20px; padding-right: 20px; }
+  .hero h1 { font-size: clamp(32px, 10vw, 52px); line-height: 0.85; }
+  .hero-cta { flex-direction: column; align-items: flex-start; }
+  .hero-scroll-hint { display: none; } /* Not useful on touch */
+
+  /* Disable Python hover — touch screens can't hover,
+     and the absolute positioning creates an awkward gap */
+  .python-hover { border-bottom: none; }
+  .python-hover::after { display: none; }
+  .python-logo { display: none; }
+
+  /* Sections */
+  section { padding-left: 20px; padding-right: 20px; }
+
+  /* About */
+  .about-grid { grid-template-columns: 1fr; gap: 48px; max-width: 100%; }
+  .stack-item { flex-wrap: wrap; gap: 8px; }
+
+  /* Experience */
+  .exp-item { grid-template-columns: 1fr; gap: 8px; }
+  .exp-list { max-width: 100%; }
+
+  /* Projects */
+  .projects-grid { grid-template-columns: 1fr; max-width: 100%; }
+
+  /* Contact */
+  .contact-links { flex-direction: column; }
+
+  /* Footer */
+  footer { flex-direction: column; gap: 12px; text-align: center; padding: 24px 20px; }
+
+  /* Disable custom cursor on touch */
+  .cursor, .cursor-ring { display: none; }
+  body { cursor: auto; }
 }

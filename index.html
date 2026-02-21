@@ -4,8 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Fisayo Balogun — Backend Developer</title>
+    <meta name="description" content="Fisayo Balogun — self-taught backend developer based in Nigeria. Python, data pipelines, APIs." />
 
-    <!-- Google Fonts: Garamond (display headlines) + DM Mono (everything else) -->
+    <!-- =============================================
+      FONTS
+      Fraunces  → display/headline font (hero, contact heading)
+      DM Mono   → monospace used everywhere else
+      Must stay in <head> so the browser downloads fonts
+      before it reads the stylesheet (avoids flash of wrong font).
+    ============================================= -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
       href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,300&display=swap"
@@ -15,88 +22,123 @@
     <!-- All styles live in css/styles.css -->
     <link rel="stylesheet" href="css/styles.css" />
   </head>
+
   <body>
+
     <!-- =============================================
-    BACKGROUND DECORATIONS
-    Blurred purple blobs that create the ambient glow.
-  ============================================= -->
+      BACKGROUND DECORATIONS
+      Blurred purple blobs for ambient glow atmosphere.
+      Pure visual — no content. Positioned via CSS.
+    ============================================= -->
     <div class="glow-blob glow-blob-1"></div>
     <div class="glow-blob glow-blob-2"></div>
     <div class="glow-blob glow-blob-3"></div>
 
     <!-- =============================================
-    CUSTOM CURSOR
-    Two layered circles driven by JavaScript.
-    Must exist in HTML so JS can find them by ID.
-  ============================================= -->
+      CUSTOM CURSOR
+      Two layered circles animated by JS.
+      Must live in HTML so JS can find them by ID.
+      Hidden on mobile via CSS (touch screens don't hover).
+    ============================================= -->
     <div class="cursor" id="cursor"></div>
     <div class="cursor-ring" id="cursorRing"></div>
 
     <!-- =============================================
-    NAVIGATION
-    Fixed top bar. Becomes frosted glass on scroll.
-    Edit: logo text, link labels, href values.
-  ============================================= -->
+      NAVIGATION
+      Fixed top bar. Logo left, links right.
+      - Desktop: links visible, hamburger hidden
+      - Mobile: links hidden, hamburger shown
+      JS adds .scrolled on scroll → frosted glass
+      JS adds .nav-open on hamburger click → mobile menu
+    ============================================= -->
     <nav id="nav">
       <a class="nav-logo" href="#">~/fisayo</a>
-      <div class="nav-links">
+
+      <!-- Desktop nav links (hidden on mobile via CSS) -->
+      <div class="nav-links" id="navLinks">
         <a href="#about">/About</a>
         <a href="#experience">/Experience</a>
         <a href="#projects">/Projects</a>
         <a href="#contact">/Contact</a>
       </div>
+
+      <!-- Hamburger button (only visible on mobile via CSS) -->
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
     </nav>
 
+      <!-- Mobile menu panel — toggled by hamburger button via JS -->
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#about">/About</a>
+      <a href="#experience">/Experience</a>
+      <a href="#projects">/Projects</a>
+      <a href="#contact">/Contact</a>
+    </div>
+
     <!-- =============================================
-    HERO SECTION
-    First thing visitors see. Full viewport height.
-    Edit: badge text, headline, bio paragraph, button text/links.
-    The typewriter phrases are set in js/main.js.
-  ============================================= -->
+      HERO SECTION
+      First thing visitors see. Full viewport height.
+      Typewriter cycling phrases → edit in js/main.js
+    ============================================= -->
     <section class="hero">
+
       <div class="hero-badge">Currently upskilling</div>
 
+      <!-- Main headline.
+           <em>           → italic, uses --text colour, smaller size
+           .python-hover  → interactive word (logo pops on hover, desktop only)
+           .purple-word   → the word "purple" in accent colour
+      -->
       <h1>
-        Backend dev.<br /><em
-          >In love with
-          <span class="python-hover"
-            >Python <span class="python-logo"></span></span
-          >(the programming language) and the colour
-          <span style="color: var(--accent)">purple</span>.</em
-        >
+        Backend dev.<br />
+        <em>
+          In love with
+          <span class="python-hover">Python<span class="python-logo"></span></span>
+          (the programming language) and the colour
+          <span class="purple-word">purple</span>.
+        </em>
       </h1>
 
+      <!-- Sub-paragraph. <span> inside = white highlighted words. -->
       <p class="hero-sub">
         I'm <span>Fisayo</span>, a self-taught backend developer based in
         <span>Nigeria</span>. I build
         <span>scalable APIs, data pipelines,</span> and cloud-deployed systems
         with Python — the kind of backend that quietly makes everything else
-        work. <br /><br />
+        work.<br /><br />
         Currently: <span class="typewriter" id="typewriter"></span>
       </p>
 
       <div class="hero-cta">
         <a href="#projects" class="btn btn-primary">See my projects</a>
-        <a href="mailto:balogunfisayo23@gmail.com" class="btn btn-ghost"
-          >Get in touch</a
-        >
+        <a href="mailto:balogunfisayo23@gmail.com" class="btn btn-ghost">Get in touch</a>
       </div>
 
+      <!-- Scroll hint (hidden on mobile) -->
       <div class="hero-scroll-hint">
         <div class="scroll-line"></div>
         Scroll to explore
       </div>
+
     </section>
 
     <!-- =============================================
-    ABOUT SECTION
-    Left col: bio text. Right col: tech stack rows.
-    Edit: paragraphs, skill names, dot counts, level labels.
-    Dot rule: 4 filled = strong, 3 = good, 2 = familiar.
-  ============================================= -->
+      ABOUT SECTION
+      Two-column grid: bio text (left) | tech stack (right).
+      Collapses to one column on mobile.
+
+      SKILL DOTS: 4 filled = Primary, 3 = Strong, 2 = Familiar
+      TO ADD A SKILL: duplicate a .stack-item block.
+    ============================================= -->
     <section id="about">
       <div class="section-label reveal">About me</div>
+
       <div class="about-grid">
+
+        <!-- Bio text -->
         <div class="about-text reveal">
           <p>
             I'm <strong>Oluwafisayomi Balogun</strong>, a self-taught backend
@@ -106,32 +148,34 @@
             University, but taught myself to code and never looked back.
           </p>
           <p>
-  I care about building systems that <strong>actually work, are reliable, well-structured, and maintainable.</strong>
-</p>
+            I care about building systems that
+            <strong>actually work, are reliable, well-structured, and maintainable.</strong>
+          </p>
           <p>
-            When I'm not writing or learning Python, I'm definitely watching a movie. My midlife-crisis hobby is running.  
-I think I'm a workaholic, although I definitely do not want to be. Most of the time, I try to do things for the plot.
+            When I'm not writing or learning Python, I'm definitely watching a
+            movie. My midlife-crisis hobby is running. I think I'm a workaholic,
+            although I definitely do not want to be. Most of the time, I try to
+            do things for the plot.
           </p>
         </div>
 
+        <!-- Tech stack list -->
         <div class="reveal">
           <div class="stack-list">
+
             <div class="stack-item">
               <div>
                 <div class="stack-name">Python</div>
-                <div class="stack-dots">         
-      <span class="dot filled"></span>
-      <span class="dot filled"></span>
-      <span class="dot filled"></span>
-      <span class="dot filled"></span>
-      <span class="dot"></span>
-    </div>
+                <div class="stack-dots">
+                  <span class="dot filled"></span>
+                  <span class="dot filled"></span>
+                  <span class="dot filled"></span>
+                  <span class="dot filled"></span>
+                  <span class="dot"></span>
+                </div>
               </div>
               <div class="stack-icons">
-                <img
-                  src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg"
-                  alt="Python"
-                />
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" />
               </div>
               <span class="stack-level">Primary</span>
             </div>
@@ -139,25 +183,18 @@ I think I'm a workaholic, although I definitely do not want to be. Most of the t
             <div class="stack-item">
               <div>
                 <div class="stack-name">Django · Flask · FastAPI</div>
-                <div class="stack-dots">          
-      <span class="dot filled"></span>
-      <span class="dot filled"></span>
-      <span class="dot"></span>
-    </div>
+                <div class="stack-dots">
+                  <span class="dot filled"></span>
+                  <span class="dot filled"></span>
+                  <span class="dot"></span>
+                  <span class="dot"></span>
+                  <span class="dot"></span>
+                </div>
               </div>
               <div class="stack-icons">
-                <img
-                  src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/django/django-plain.svg"
-                  alt="Django"
-                />
-                <img
-                  src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flask/flask-original.svg"
-                  alt="Flask"
-                />
-                <img
-                  src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg"
-                  alt="FastAPI"
-                />
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/django/django-plain.svg" alt="Django" />
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flask/flask-original.svg" alt="Flask" />
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg" alt="FastAPI" />
               </div>
               <span class="stack-level">Strong</span>
             </div>
@@ -165,56 +202,36 @@ I think I'm a workaholic, although I definitely do not want to be. Most of the t
             <div class="stack-item">
               <div>
                 <div class="stack-name">PostgreSQL · SQLite</div>
-                <div class="stack-dots">         
-      <span class="dot filled"></span>
-      <span class="dot filled"></span>
-      <span class="dot filled"></span>
-      <span class="dot filled"></span>
-      <span class="dot"></span>
-    </div>
+                <div class="stack-dots">
+                  <span class="dot filled"></span>
+                  <span class="dot filled"></span>
+                  <span class="dot filled"></span>
+                  <span class="dot filled"></span>
+                  <span class="dot"></span>
+                </div>
               </div>
               <div class="stack-icons">
-                <img
-                  src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg"
-                  alt="PostgreSQL"
-                />
-                <img
-                  src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sqlite/sqlite-original.svg"
-                  alt="SQLite"
-                />
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" alt="PostgreSQL" />
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sqlite/sqlite-original.svg" alt="SQLite" />
               </div>
               <span class="stack-level">Strong</span>
             </div>
 
             <div class="stack-item">
               <div>
-                <div class="stack-name">
-                  Docker · Cloud Run · AWS S3 · Render
+                <div class="stack-name">Docker · Cloud Run · AWS S3 · Render</div>
+                <div class="stack-dots">
+                  <span class="dot filled"></span>
+                  <span class="dot filled"></span>
+                  <span class="dot filled"></span>
+                  <span class="dot"></span>
+                  <span class="dot"></span>
                 </div>
-                <div class="stack-dots">         
-      <span class="dot filled"></span>
-      <span class="dot filled"></span>
-      <span class="dot filled"></span>
-      <span class="dot"></span>
-    </div>
               </div>
               <div class="stack-icons">
-                <img
-                  src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg"
-                  alt="Docker"
-                />
-                <img
-                  src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/googlecloud/googlecloud-original.svg"
-                  alt="GCP"
-                />
-                <img
-                  src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg"
-                  alt="AWS"
-                />
-                <img
-                  src="https://cdn.jsdelivr.net/npm/simple-icons@v10/icons/render.svg"
-                  alt="Render"
-                />
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" alt="Docker" />
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/googlecloud/googlecloud-original.svg" alt="GCP" />
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg" alt="AWS" />
               </div>
               <span class="stack-level">Strong</span>
             </div>
@@ -222,25 +239,18 @@ I think I'm a workaholic, although I definitely do not want to be. Most of the t
             <div class="stack-item">
               <div>
                 <div class="stack-name">Node.js · JavaScript · Express</div>
-                <div class="stack-dots">         
-      <span class="dot filled"></span>
-      <span class="dot filled"></span>
-      <span class="dot"></span>
-    </div>
+                <div class="stack-dots">
+                  <span class="dot filled"></span>
+                  <span class="dot filled"></span>
+                  <span class="dot"></span>
+                  <span class="dot"></span>
+                  <span class="dot"></span>
+                </div>
               </div>
               <div class="stack-icons">
-                <img
-                  src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg"
-                  alt="Node.js"
-                />
-                <img
-                  src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg"
-                  alt="JavaScript"
-                />
-                <img
-                  src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg"
-                  alt="Express"
-                />
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="Node.js" />
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript" />
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg" alt="Express" />
               </div>
               <span class="stack-level">Familiar</span>
             </div>
@@ -248,60 +258,47 @@ I think I'm a workaholic, although I definitely do not want to be. Most of the t
             <div class="stack-item">
               <div>
                 <div class="stack-name">Data Engineering · ETL</div>
-                <div class="stack-dots">         
-      <span class="dot filled"></span>
-      <span class="dot filled"></span>
-      <span class="dot filled"></span>
-      <span class="dot filled"></span>
-      <span class="dot"></span>
-    </div>
+                <div class="stack-dots">
+                  <span class="dot filled"></span>
+                  <span class="dot filled"></span>
+                  <span class="dot filled"></span>
+                  <span class="dot filled"></span>
+                  <span class="dot"></span>
+                </div>
               </div>
               <div class="stack-icons">
-                <img
-                  src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original.svg"
-                  alt="Pandas"
-                />
-                <img
-                  src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/apacheairflow/apacheairflow-original.svg"
-                  alt="Airflow"
-                />
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original.svg" alt="Pandas" />
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/apacheairflow/apacheairflow-original.svg" alt="Airflow" />
               </div>
               <span class="stack-level">Strong</span>
             </div>
+
           </div>
         </div>
       </div>
     </section>
 
     <!-- =============================================
-    EXPERIENCE SECTION
-    One .exp-item block per job.
-    Edit: date, company name, role title, bullet points.
-    Add a new .exp-item block to add another job.
-  ============================================= -->
+      EXPERIENCE SECTION
+      One .exp-item block per job.
+      TO ADD A JOB: duplicate an .exp-item block.
+    ============================================= -->
     <section id="experience">
       <div class="section-label reveal">Experience</div>
+
       <div class="exp-list">
+
         <div class="exp-item reveal">
           <div class="exp-meta">
             <div class="exp-date">Oct 2025 – Present</div>
             <div class="exp-company">Betting Automate</div>
           </div>
-          <div>
+          <div class="exp-content">
             <div class="exp-role">Python Developer · Remote</div>
             <ul class="exp-bullets">
-              <li>
-                Designed and implemented a production Python comparison engine
-                to identify value bets across bookmakers in real-time.
-              </li>
-              <li>
-                Developed strict odds-matching and validation logic, improving
-                signal accuracy and eliminating false positives.
-              </li>
-              <li>
-                Engineered a system to automatically match identical sporting
-                events across two different data feeds.
-              </li>
+              <li>Designed and implemented a production Python comparison engine to identify value bets across bookmakers in real-time.</li>
+              <li>Developed strict odds-matching and validation logic, improving signal accuracy and eliminating false positives.</li>
+              <li>Engineered a system to automatically match identical sporting events across two different data feeds.</li>
             </ul>
           </div>
         </div>
@@ -311,20 +308,12 @@ I think I'm a workaholic, although I definitely do not want to be. Most of the t
             <div class="exp-date">Oct 2025 – Present</div>
             <div class="exp-company">Public Tech Studio</div>
           </div>
-          <div>
+          <div class="exp-content">
             <div class="exp-role">Data Associate · Georgia, USA</div>
             <ul class="exp-bullets">
-              <li>
-                Designed a relational database schema and integrated APIs to ingest crowd-sourced transport data, supporting 100+ active submissions with full referential integrity.
-              </li>
-              <li>
-                Automated data collection and processing pipelines for public transit data via external
-                APIs, reducing manual data handling by over 99%.
-              </li>
-              <li>
-                Containerized data workflows with Docker and deployed to Google
-                Cloud Platform via Cloud Run.
-              </li>
+              <li>Designed a relational database schema and integrated APIs to ingest crowd-sourced transport data, supporting 100+ active submissions with full referential integrity.</li>
+              <li>Automated data collection and processing pipelines for public transit data, reducing manual data handling by over 99%.</li>
+              <li>Containerized data workflows with Docker and deployed to Google Cloud Platform via Cloud Run.</li>
             </ul>
           </div>
         </div>
@@ -334,153 +323,124 @@ I think I'm a workaholic, although I definitely do not want to be. Most of the t
             <div class="exp-date">Feb 2024 – Oct 2025</div>
             <div class="exp-company">Stears</div>
           </div>
-          <div>
+          <div class="exp-content">
             <div class="exp-role">Data Research Analyst · Lagos, NG</div>
             <ul class="exp-bullets">
-              <li>
-                Engineered a GPT-based AI pipeline for automated content
-                summarization integrating RSS feeds, web search, and Google Docs
-                API — cutting processing time by 85%.
-              </li>
-              <li>
-                Automated election data workflows from collection to processing
-                using Python, reducing manual data entry by over 80%.
-              </li>
+              <li>Engineered a GPT-based AI pipeline for automated content summarization integrating RSS feeds, web search, and Google Docs API — cutting processing time by 85%.</li>
+              <li>Automated election data workflows from collection to processing using Python, reducing manual data entry by over 80%.</li>
             </ul>
           </div>
         </div>
+
       </div>
     </section>
 
     <!-- =============================================
-    PROJECTS SECTION
-    Grid of cards. One .project-card per project.
-    Edit: icon emoji, links, title, description, tags.
-    Duplicate a card block to add more projects.
-  ============================================= -->
+      PROJECTS SECTION
+      Each card is an <a> tag — whole card is clickable.
+      No nested <a> tags inside (invalid HTML).
+      TO ADD A PROJECT: duplicate a project-card <a> block.
+    ============================================= -->
     <section id="projects">
-  <div class="section-label reveal">Selected projects</div>
-  <div class="projects-grid">
+      <div class="section-label reveal">Selected projects</div>
 
-    <a href="https://github.com/oluwafisayomi-balogun/bet-placer-bc-fun" target="_blank" class="project-card reveal">
-      <div class="project-top">
-        <span class="project-icon">🔁</span>
-        <div class="project-links">
-          <span>GitHub ↗</span>
-        </div>
-      </div>
-      <div class="project-title">Sports Bet Automation</div>
-      <div class="project-desc">
-        Reverse-engineered an undocumented REST API to place single and
-        combo bets programmatically. Implemented JWT auth, input validation,
-        and robust error handling — reducing manual execution to a single
-        function call.
-      </div>
-      <div class="project-tags">
-        <span class="tag">Python</span>
-        <span class="tag">REST APIs</span>
-        <span class="tag">Chrome DevTools</span>
-      </div>
-    </a>
+      <div class="projects-grid">
 
-    <a href="https://drive.google.com/drive/folders/1CJMrGxNYlJ18tThowKHMcKSCW1wHNiRF?usp=sharing/" target="_blank" class="project-card reveal">
-      <div class="project-top">
-        <span class="project-icon">☁️</span>
-        <div class="project-links">
-          <span>Drive ↗</span>
-        </div>
-      </div>
-      <div class="project-title">Web Scraping & Data Pipeline</div>
-      <div class="project-desc">
-        Automated web scraping from a login-protected site using Selenium.
-        Processed data with Pandas and stored to AWS S3 via boto3 — fully
-        hands-off, cloud-synced output.
-      </div>
-      <div class="project-tags">
-        <span class="tag">Python</span>
-        <span class="tag">Selenium</span>
-        <span class="tag">Pandas</span>
-        <span class="tag">AWS S3</span>
-      </div>
-    </a>
+        <a href="https://github.com/oluwafisayomi-balogun/bet-placer-bc-fun" target="_blank" class="project-card reveal">
+          <div class="project-top">
+            <span class="project-icon">🔁</span>
+            <span class="project-link-label">GitHub ↗</span>
+          </div>
+          <div class="project-title">Sports Bet Automation</div>
+          <div class="project-desc">
+            Reverse-engineered an undocumented REST API to place single and combo bets
+            programmatically. Implemented JWT auth, input validation, and robust error
+            handling — reducing manual execution to a single function call.
+          </div>
+          <div class="project-tags">
+            <span class="tag">Python</span>
+            <span class="tag">REST APIs</span>
+            <span class="tag">Chrome DevTools</span>
+          </div>
+        </a>
 
-    <a href="https://weather-fetcher-4yrl.onrender.com/" target="_blank" class="project-card reveal">
-      <div class="project-top">
-        <span class="project-icon">🌦️</span>
-        <div class="project-links">
-          <span>Live ↗</span>
-        </div>
-      </div>
-      <div class="project-title">Weather Fetcher API</div>
-      <div class="project-desc">
-        Flask backend that chains multiple third-party API calls to convert
-        city names into real-time weather insights. Securely manages API
-        keys with env vars and deployed to Render.
-      </div>
-      <div class="project-tags">
-        <span class="tag">Python</span>
-        <span class="tag">Flask</span>
-        <span class="tag">REST APIs</span>
-        <span class="tag">Render</span>
-      </div>
-    </a>
+        <a href="https://drive.google.com/drive/folders/1CJMrGxNYlJ18tThowKHMcKSCW1wHNiRF?usp=sharing/" target="_blank" class="project-card reveal">
+          <div class="project-top">
+            <span class="project-icon">☁️</span>
+            <span class="project-link-label">Drive ↗</span>
+          </div>
+          <div class="project-title">Web Scraping & Data Pipeline</div>
+          <div class="project-desc">
+            Automated web scraping from a login-protected site using Selenium.
+            Processed data with Pandas and stored to AWS S3 via boto3 — fully
+            hands-off, cloud-synced output.
+          </div>
+          <div class="project-tags">
+            <span class="tag">Python</span>
+            <span class="tag">Selenium</span>
+            <span class="tag">Pandas</span>
+            <span class="tag">AWS S3</span>
+          </div>
+        </a>
 
-  </div>
-</section>
+        <a href="https://weather-fetcher-4yrl.onrender.com/" target="_blank" class="project-card reveal">
+          <div class="project-top">
+            <span class="project-icon">🌦️</span>
+            <span class="project-link-label">Live ↗</span>
+          </div>
+          <div class="project-title">Weather Fetcher API</div>
+          <div class="project-desc">
+            Flask backend that chains multiple third-party API calls to convert city
+            names into real-time weather insights. Securely manages API keys with env
+            vars and deployed to Render.
+          </div>
+          <div class="project-tags">
+            <span class="tag">Python</span>
+            <span class="tag">Flask</span>
+            <span class="tag">REST APIs</span>
+            <span class="tag">Render</span>
+          </div>
+        </a>
+
+      </div>
+    </section>
+
     <!-- =============================================
-    CONTACT SECTION
-    Edit: headline, description, and each .contact-link.
-    Update href="mailto:..." and href="https://..." with your real links.
-  ============================================= -->
+      CONTACT SECTION
+      Edit: heading, description, and link hrefs/labels.
+    ============================================= -->
     <section id="contact">
       <div class="contact-inner reveal">
         <div class="contact-heading">
           Let's build<br /><em>something good.</em>
         </div>
         <p class="contact-desc">
-          Open to freelance projects, and interesting
-          conversations. If you're building something that needs a reliable
-          backend - reach out. I'm always happy to talk Python, movies, or
-          just ideas.
+          Open to freelance projects and interesting conversations. If you're
+          building something that needs a reliable backend — reach out. I'm always
+          happy to talk Python, movies, or just ideas.
         </p>
         <div class="contact-links">
-          <a href="mailto:balogunfisayo23@gmail.com" class="contact-link"
-            >✉ Email</a
-          >
-          <a
-            href="https://github.com/oluwafisayomi-balogun"
-            target="_blank"
-            class="contact-link"
-            >↗ GitHub</a
-          >
-          <a
-            href="https://www.linkedin.com/in/oluwafisayomi-balogun/"
-            target="_blank"
-            class="contact-link"
-            >↗ LinkedIn</a
-          >
-          <a
-            href="https://docs.google.com/document/d/1QqSWtludBeXAiuuygdmcABMainnRWDTpi7isFsTmQqs/edit?usp=sharing"
-            class="contact-link"
-            >↗ Resume</a
-          >
+          <a href="mailto:balogunfisayo23@gmail.com" class="contact-link">✉ Email</a>
+          <a href="https://github.com/oluwafisayomi-balogun" target="_blank" class="contact-link">↗ GitHub</a>
+          <a href="https://www.linkedin.com/in/oluwafisayomi-balogun/" target="_blank" class="contact-link">↗ LinkedIn</a>
+          <a href="https://docs.google.com/document/d/1QqSWtludBeXAiuuygdmcABMainnRWDTpi7isFsTmQqs/edit?usp=sharing" target="_blank" class="contact-link">↗ Resume</a>
         </div>
       </div>
     </section>
 
     <!-- =============================================
-    FOOTER
-    Edit: name, year, and tagline.
-  ============================================= -->
+      FOOTER
+      Edit: name, year, tagline.
+    ============================================= -->
     <footer>
       <span>© 2025 Oluwafisayomi Balogun</span>
-      <span>Designed & built by me (fully vibe-coded. hehe)</span>
+      <span>Designed &amp; built by me (fully vibe-coded. hehe)</span>
       <span>Built with HTML · CSS · Vanilla JS</span>
     </footer>
 
-    <!-- All JavaScript lives in js/main.js -->
-    <!-- Note: script goes at END of body so the HTML elements above
-       exist in the page before JS tries to find them by ID. -->
+    <!-- Script at end of <body> so all HTML elements
+         exist before JS tries to query them. -->
     <script src="js/main.js"></script>
+
   </body>
 </html>

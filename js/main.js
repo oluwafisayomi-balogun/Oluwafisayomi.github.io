@@ -4,69 +4,72 @@
 
    TABLE OF CONTENTS
    -----------------
-   1.  Custom cursor
-   2.  Nav scroll behaviour
-   3.  Typewriter effect
-   4.  Scroll reveal
+   1.  Scroll to top on load
+   2.  Custom cursor
+   3.  Nav scroll behaviour
+   4.  Hamburger menu (mobile)
+   5.  Typewriter effect
+   6.  Scroll reveal
 
-   NOTE: This script tag is placed at the END of <body> in index.html.
-   That means by the time this code runs, all HTML elements already
-   exist in the page — so document.getElementById() always finds them.
-   If you move the <script> tag to the <head>, things will break.
+   NOTE: This script is at the END of <body> in index.html.
+   All HTML elements exist before this code runs, so
+   document.getElementById() always finds what it's looking for.
 ================================================================ */
 
 
 /* ================================================================
-   1. CUSTOM CURSOR
-   Replaces the default browser cursor with two layered circles.
+   1. SCROLL TO TOP ON LOAD
+   Forces the page to start at the top on every load/refresh.
+   Browsers sometimes remember scroll position — this overrides that.
+================================================================ */
+window.scrollTo(0, 0);
 
-   How it works:
-   - We track the real mouse position in mx/my on every mousemove
-   - The small dot (.cursor) jumps instantly to mx/my each frame
-   - The ring (.cursor-ring) uses lerp (linear interpolation) to
-     slowly catch up — this creates the satisfying "lag" effect
-   - requestAnimationFrame runs this in a loop (~60fps)
 
-   To adjust lag: change the 0.12 value. Lower = more lag, slower.
-   ================================================================ */
-window.scrollTo(0, 0); // Force scroll to top on every page load
+/* ================================================================
+   2. CUSTOM CURSOR
+   Replaces the browser cursor with two layered circles.
+
+   mx / my  — actual mouse coordinates
+   rx / ry  — ring's current position (slowly catches up via lerp)
+
+   Lerp (linear interpolation): rx += (target - rx) * speed
+   Lower speed value = more lag on the ring. 0.12 feels good.
+================================================================ */
 const cursor = document.getElementById('cursor');
 const ring   = document.getElementById('cursorRing');
 
-let mx = 0, my = 0; // Actual mouse position
-let rx = 0, ry = 0; // Ring's current position (lags behind)
+let mx = 0, my = 0;
+let rx = 0, ry = 0;
 
-// Update mouse position on every move
 document.addEventListener('mousemove', (e) => {
   mx = e.clientX;
   my = e.clientY;
 });
 
 function animateCursor() {
-  // Small dot: snap directly to mouse (offset by half its width/height to centre it)
+  // Dot snaps directly to mouse
   cursor.style.transform = `translate(${mx - 5}px, ${my - 5}px)`;
 
-  // Ring: lerp toward mouse position (0.12 = speed factor)
+  // Ring lerps toward mouse (0.12 = lag factor; lower = more lag)
   rx += (mx - rx) * 0.12;
   ry += (my - ry) * 0.12;
   ring.style.transform = `translate(${rx - 16}px, ${ry - 16}px)`;
 
-  requestAnimationFrame(animateCursor); // Keep looping every frame
+  requestAnimationFrame(animateCursor);
 }
 
-animateCursor(); // Kick off the loop
+animateCursor();
 
 
 /* ================================================================
-   2. NAV SCROLL BEHAVIOUR
-   Watches the scroll position. When user scrolls past 20px,
-   the .scrolled class is added to <nav>.
-   CSS then switches on the frosted glass background.
+   3. NAV SCROLL BEHAVIOUR
+   Adds .scrolled to <nav> when user scrolls past 20px.
+   CSS uses this class to show the frosted glass background.
 
-   classList.toggle(class, condition) adds the class if condition
-   is true, removes it if false — no if/else needed.
-   ================================================================ */
-
+   classList.toggle(class, condition):
+   - adds class if condition is true
+   - removes it if condition is false
+================================================================ */
 const nav = document.getElementById('nav');
 
 window.addEventListener('scroll', () => {
@@ -75,36 +78,59 @@ window.addEventListener('scroll', () => {
 
 
 /* ================================================================
-   3. TYPEWRITER EFFECT
-   Cycles through an array of phrases, typing then deleting each one.
+   4. HAMBURGER MENU (MOBILE)
+   Toggles the mobile nav menu open/closed.
 
-   To change the phrases: edit the 'phrases' array below.
-   To change speed: edit typingSpeed, deleteSpeed, pauseAfterWord.
+   hamburger button  → gets .open class (bars animate into X)
+   mobileMenu panel  → gets .open class (slides down from top)
 
-   State variables:
-   - phraseIndex  : which phrase we're currently on
-   - charIndex    : how many characters are currently shown
-   - isDeleting   : whether we're currently erasing or typing
+   Clicking a menu link also closes the menu so the page scrolls
+   smoothly to the section without leaving the menu open.
+================================================================ */
+const hamburger  = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
 
-   The function calls itself recursively via setTimeout.
-   ================================================================ */
+// Toggle menu open/closed on hamburger click
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('open');
+  mobileMenu.classList.toggle('open');
+});
 
-// ---- EDIT THESE to change what the typewriter cycles through ----
+// Close menu when any link inside it is clicked
+mobileMenu.querySelectorAll('a').forEach((link) => {
+  link.addEventListener('click', () => {
+    hamburger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+  });
+});
+
+
+/* ================================================================
+   5. TYPEWRITER EFFECT
+   Types then deletes each phrase in the array, cycling forever.
+
+   TO CHANGE PHRASES: edit the phrases array below.
+   TO CHANGE SPEED:   edit typingSpeed / deleteSpeed / pauseAfterWord.
+
+   phraseIndex — which phrase we're currently on (0 = first)
+   charIndex   — how many characters are currently visible
+   isDeleting  — true while erasing, false while typing
+================================================================ */
 const phrases = [
   'building data pipelines.',
   'upskilling.',
   'automating the boring stuff.',
   'creating databases.',
-  'vibe-coding.'
+  'vibe-coding.',
 ];
 
-const typingSpeed    = 65;   // ms delay between each character typed
-const deleteSpeed    = 35;   // ms delay between each character deleted
-const pauseAfterWord = 1800; // ms to wait at end of a full phrase
+const typingSpeed    = 65;   // ms per character typed
+const deleteSpeed    = 35;   // ms per character deleted
+const pauseAfterWord = 1800; // ms to pause when full phrase is shown
 
-let phraseIndex = 0;     // Start on the first phrase
-let charIndex   = 0;     // Start with 0 characters shown
-let isDeleting  = false; // Start by typing, not deleting
+let phraseIndex = 0;
+let charIndex   = 0;
+let isDeleting  = false;
 
 const typewriterEl = document.getElementById('typewriter');
 
@@ -112,71 +138,65 @@ function type() {
   const currentPhrase = phrases[phraseIndex];
 
   if (!isDeleting) {
-    // --- TYPING: add one character ---
+    // Typing: reveal one more character
     charIndex++;
     typewriterEl.textContent = currentPhrase.slice(0, charIndex);
 
-    // If we've typed the full phrase, switch to deleting after a pause
     if (charIndex === currentPhrase.length) {
+      // Full phrase shown — pause then start deleting
       isDeleting = true;
       setTimeout(type, pauseAfterWord);
-      return; // Exit early — we'll resume after the pause
+      return;
     }
 
   } else {
-    // --- DELETING: remove one character ---
+    // Deleting: remove one character
     charIndex--;
     typewriterEl.textContent = currentPhrase.slice(0, charIndex);
 
-    // If we've deleted everything, move to the next phrase
     if (charIndex === 0) {
+      // All deleted — move to next phrase
       isDeleting = false;
-      phraseIndex = (phraseIndex + 1) % phrases.length; // Loop back to 0 at end
-      setTimeout(type, 400); // Short pause before starting next phrase
+      phraseIndex = (phraseIndex + 1) % phrases.length;
+      setTimeout(type, 400);
       return;
     }
   }
 
-  // Schedule the next character
   setTimeout(type, isDeleting ? deleteSpeed : typingSpeed);
 }
 
-// Initial delay before the typewriter starts (lets the hero animate in first)
+// Initial delay lets hero animations finish first
 setTimeout(type, 1400);
 
 
 /* ================================================================
-   4. SCROLL REVEAL
-   Watches elements with the class .reveal using IntersectionObserver.
-   When a .reveal element enters the viewport, .visible is added.
-   CSS transitions in styles.css handle the actual animation.
+   6. SCROLL REVEAL
+   Watches every .reveal element with IntersectionObserver.
+   Adds .visible when the element enters the viewport.
+   CSS transitions in styles.css do the actual animation.
 
-   threshold: 0.1 means "trigger when 10% of the element is visible"
+   threshold: 0.1 — triggers when 10% of the element is visible.
 
-   The staggered setTimeout(i * 80) means when multiple elements
-   enter the viewport at once, they appear one after another (cascade).
+   Staggered setTimeout(i * 80) creates a cascade when multiple
+   elements enter the viewport at the same time.
 
-   observer.unobserve() removes the element from watching after it's
-   revealed — so it only animates once, not every time you scroll.
-   ================================================================ */
-
+   unobserve() stops watching after reveal — animates only once.
+================================================================ */
 const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach((entry, i) => {
     if (entry.isIntersecting) {
-      // Stagger: each element in the batch is delayed by 80ms more
       setTimeout(() => {
         entry.target.classList.add('visible');
-      }, i * 80);
+      }, i * 80); // stagger each element by 80ms
 
-      // Stop watching this element (animate only once)
-      revealObserver.unobserve(entry.target);
+      revealObserver.unobserve(entry.target); // reveal once only
     }
   });
 }, {
-  threshold: 0.1 // Trigger when 10% of the element is in view
+  threshold: 0.1,
 });
 
-// Attach observer to every element with class .reveal
 document.querySelectorAll('.reveal').forEach((el) => {
   revealObserver.observe(el);
 });
