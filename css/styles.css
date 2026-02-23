@@ -305,7 +305,6 @@ nav.scrolled {
   flex-direction: column;
   justify-content: center;
   padding: 0 48px;
-  max-width: 1400px;
 }
 
 /* Pulsing availability badge */
@@ -522,6 +521,8 @@ section {
   position: relative;
   z-index: 1;
   padding: 100px 48px;
+  width: 100%;
+  max-width: 100%;
 }
 
 /* Section label: "About me", "Experience" etc. */
@@ -553,10 +554,11 @@ section {
 ================================================================ */
 .about-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(300px, 650px) 1fr;
   gap: 80px;
   align-items: start;
-  max-width: 1400px;
+  width: 100%;
+  max-width: 100%;
 }
 
 .about-text { font-size: 15px; line-height: 1.9; color: var(--muted); }
@@ -603,9 +605,9 @@ section {
 }
 
 .stack-icons img {
-  width: 22px; height: 22px;
+  width: 1.6rem; height: 1.6rem;
   object-fit: contain;
-  filter: brightness(0) invert(0.7); /* muted to match dark theme */
+  filter: brightness(0) invert(0.7);
 }
 
 .stack-item:hover .stack-icons             { opacity: 1; transform: translateY(0); }
@@ -618,7 +620,7 @@ section {
    Collapses to single column on mobile.
 ================================================================ */
 .exp-list {
-  max-width: 1400px;
+  max-width: 100%;
   display: flex;
   flex-direction: column;
 }
@@ -664,7 +666,8 @@ section {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 16px;
-  max-width: 1000px;
+  width: 100%;
+  max-width: 100%;
 }
 
 .project-card {
